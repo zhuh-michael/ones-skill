@@ -4,35 +4,40 @@
 
 ## 安装
 
-### 方式一：一键安装脚本
+### 通过 Marketplace 安装（推荐）
 
 ```bash
-bash install.sh
+claude plugin add git@github.com:zhuh-michael/ones-skill.git
 ```
 
-### 方式二：手动安装
+Claude Code 会自动下载并注册 `ones-ticket` 和 `ones-init` 两个 skill。
 
-将 `ones-ticket/` 和 `ones-init/` 目录复制到：
-
-```
-~/.claude/plugins/marketplaces/anthropic-agent-skills/skills/
-```
-
-安装 Python 依赖（Token 刷新脚本需要）：
+### 更新
 
 ```bash
-pip install playwright && playwright install chromium
+claude plugin update ones-skill
 ```
+
+有新版本时执行此命令即可，无需手动操作文件。
 
 ## 首次配置
 
-安装完成后，在 Claude Code 中执行：
+安装完成后，在 Claude Code 中执行登录初始化：
 
 ```
 /ones-init
 ```
 
-按提示完成钉钉扫码登录，Token 自动保存到 `~/.ones_auth`。
+流程：
+1. 执行 `/ones-init`，检测认证状态
+2. 若未配置，按提示在终端运行扫码脚本：
+   ```bash
+   pip install playwright && playwright install chromium   # 首次需要
+   python3 ~/.claude/plugins/marketplaces/ones-skill/skills/ones-ticket/scripts/refresh_token.py
+   ```
+3. 用钉钉 App 扫码授权（唯一手动步骤）
+4. Token 自动保存到 `~/.ones_auth` 并写入 `~/.zshrc`
+5. 再次执行 `/ones-init` 验证是否就绪
 
 ## 使用方法
 
@@ -94,14 +99,18 @@ Skill 会自动：
 
 ## Token 过期处理
 
-认证失效时（HTTP 401），重新登录：
+认证失效时（HTTP 401），在 Claude Code 中执行：
 
-```bash
-python3 ~/.claude/plugins/marketplaces/anthropic-agent-skills/skills/ones-ticket/scripts/refresh_token.py
-source ~/.ones_auth
+```
+/ones-init
 ```
 
-或在 Claude Code 中执行 `/ones-init`。
+或直接在终端运行：
+
+```bash
+python3 ~/.claude/plugins/marketplaces/ones-skill/skills/ones-ticket/scripts/refresh_token.py
+source ~/.ones_auth
+```
 
 ## 项目配置
 
