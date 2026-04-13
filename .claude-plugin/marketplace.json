@@ -1,0 +1,22 @@
+{
+  "name": "ones-skill",
+  "owner": {
+    "name": "zhuh-michael"
+  },
+  "metadata": {
+    "description": "ONES 工单系统 Claude Code Skill — 支持创建需求/缺陷/任务、查询工单、管理迭代、附件上传、评论等",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "ones-ticket",
+      "description": "ONES 工单管理：创建需求/缺陷/任务，查询工单列表，状态流转，添加评论，附件上传，迭代管理",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/ones-ticket",
+        "./skills/ones-init"
+      ]
+    }
+  ]
+}
