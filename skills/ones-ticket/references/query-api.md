@@ -90,9 +90,10 @@ Content-Type: application/json;charset=UTF-8
 | `1VFWcEV1` | 问题重复 | 视为关闭 |
 | `KtFfwnsV` | 暂缓处理 | 视为关闭 |
 | `TeH9xcmt` | 非缺陷 | |
+| `6E2zSBJD` | 需求优化 | 视为关闭 |
 
 ```python
-CLOSED_STATUS_UUIDS = ["UXQxFHse", "CFbsohNY", "DFF3639N", "1VFWcEV1", "KtFfwnsV", "TeH9xcmt"]
+CLOSED_STATUS_UUIDS = ["UXQxFHse", "CFbsohNY", "DFF3639N", "1VFWcEV1", "KtFfwnsV", "TeH9xcmt", "6E2zSBJD"]
 # 用法：
 "filterGroup": [{"project_in": ["Gq9erDiKJ1trVL1V"], "issueType_in": ["H1pqkZQF"], "status_notIn": CLOSED_STATUS_UUIDS}]
 ```
