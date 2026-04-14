@@ -161,7 +161,7 @@ payload = {
                 "owner_in": ["$currentUser"]
             }
         ],
-        "pagination": {"limit": 50, "preciseCount": False}
+        "pagination": {"limit": 200, "preciseCount": True}  # 避免截断，工单总量通常不超过200
     }
 }
 
