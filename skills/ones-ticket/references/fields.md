@@ -205,3 +205,51 @@ field_values = [
 import random, string
 task_uuid = ones_uid + ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
 ```
+
+---
+
+## 图片上传流程（三步）
+
+工单描述中嵌入图片需依次调用三个接口。
+
+### Step 1：注册附件 → 获取 token + resource_uuid
+
+```python
+payload = {
+    "type": "attachment", "name": "文件名.jpg",
+    "ref_id": task_uuid, "ref_type": "task",
+    "description": "", "source": "edit",
+    "image_width": w, "image_height": h, "ctype": "image/jpeg"
+}
+# POST /res/attachments/upload
+# 返回：token, resource_uuid
+```
+
+图片尺寸获取（macOS）：
+```bash
+sips -g pixelWidth -g pixelHeight {path}
+```
+
+### Step 2：上传文件
+
+```bash
+curl -F "token={token}" -F "file=@{path};type=image/jpeg" \
+  https://works.yxt.com/api/project/files/upload
+```
+
+### Step 3：更新描述嵌入图片
+
+用 `resource_uuid` 构造 img 标签，更新 `desc_rich` + `descriptionText` 字段：
+
+```python
+img_html = (
+    f'<figure class="ones-image-figure" data-size="medium">'
+    f'<div class="image-wrapper">'
+    f'<img data-mime="image/jpeg" data-orientation="1" '
+    f'data-ref-id="{task_uuid}" data-ref-type="task" '
+    f'data-size="medium" data-uuid="{resource_uuid}" '
+    f'src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" />'
+    f'</div><figcaption></figcaption></figure>'
+)
+# 通过 tasks/update3 更新 desc_rich 和 descriptionText
+```
